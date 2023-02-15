@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component.cs" />
+    <Compile Include="Solo.Core.IEntity.cs" />
     <Compile Include="Solo.Storage.IO.cs" />
     <Compile Include="Solo.Storage.Heap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

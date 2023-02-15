@@ -75,7 +75,7 @@ namespace Solo.Storage
             return heap;
         }
 
-        public static bool SaveHeap(Heap heap) { return true; }
+        public static bool SaveHeap(Heap heap, string path) { return true; }
 
         static private string[] ParseString(string str)
         {
