@@ -1,0 +1,32 @@
+[class Heap] - Куча, нужна для хранения данных
+
+методы:
+
+/* Добавить значение */
+public void Add(string key, int value)
+public void Add(string key, float value)
+public void Add(string key, string value)
+public void Add(string key, bool value)
+public void Add(string key, Point value)
+public void Add(string key, Vector2 value)
+public void Add(string key, Heap value) // В куче могут содержаться другие кучи
+
+/* Получить значение */
+public int GetInt(string key)
+public float GetFloat(string key)
+public string GetString(string key)
+public bool GetBool(string key)
+public Point GetPoint(string key)
+public Vector2 GetVector2(string key)
+public Heap GetHeap(string key) // В куче могут содержаться другие кучи
+
+/* Сохранить кучу */
+public void Save(StreamWriter sw, string indent)
+/* 
+    sw - стрим райтер, ident - отступ, нарпимер "\t";
+    Используется в Solo.Storage.IO для сохранения файлов в формает *.heap
+    Об устройстве heap-файлов в Solo_Storage_IO
+*/
+        
+public override string ToString()
+        

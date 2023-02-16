@@ -1,0 +1,78 @@
+[static class IO] - класс для чтения и записи
+
+методы:
+
+/* Прочитать heap-файл */
+static Heap OpenHeap(string path) 
+/*
+    Путь указывается относительно приложения
+    Указывается имя без разширения
+    heaps/heap - правильно
+    heap/heap.heap - не правильно
+*/
+
+/* Сохранить heap в heap-файл */
+static void SaveHeap(Heap heap, string path)
+/*
+    Путь указывается относительно приложения
+    Указывается имя без разширения
+    heaps/heap - правильно
+    heap/heap.heap - не правильно
+*/
+
+[Структура heap-файла]
+
+<name>: n - так задаётся int, где n это число
+пример: 
+var: 12
+
+<name>: nf или n,nf - так задаётся float, где n это число
+примеры: 
+var: 12f, var: 1,7f
+
+<name>: "str" - так задаётся string, где s это строка
+пример: 
+var: "Привет, Мир!"
+
+<name>: bool - так задаётся bool, где bool это True/true/On/on/+ d значении true, а False/false/Off/off/- - false
+пример: 
+var: true
+
+<name>: n.n - так задаётся point, где n это число
+пример:
+var: 1.1
+
+<name>: nf.nf или n,nf.n,nf или n,nf.nf - так задаётся float, где n это число
+примеры: 
+var: 12f.12f
+var: 1,7f.1,6f
+var: 1,7f.1f
+
+<name> {     
+} - так задаётся куча
+
+Пример файла:
+
+h: 480
+w: 600
+testFloat: 12,12f
+testFloatZero: 1f
+title: "Test window"
+object {
+	age: 17
+	name: "Вася Пупкин"
+	admin: True
+	smerd: False
+	pocket {
+		range: 20
+		pointTest: 0.0
+		vectorTest: 12,12f.12f
+		e1 {
+			w: 1
+		}
+	}
+	e2 {
+		e2_asd: 20
+		e2_asd2: 20
+	}
+}
