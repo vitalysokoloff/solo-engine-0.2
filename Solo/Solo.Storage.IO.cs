@@ -8,15 +8,15 @@ namespace Solo.Storage
     public static class IO
     {
         static private string _intPattern = @"^.+\s*:\s*\d+\s*$";
-        static private string _floatPattern = @"^.+\s*:\s*\d+,\d+\s*$";
+        static private string _floatPattern = @"^.+\s*:\s*((\d+,\d+)|(\d+))f\s*$";
         static private string _stringPattern = "^.+\\s*:\\s*\".+\"\\s*$";
         static private string _heapPattern = @"^.+\s*{\s*$";
         static private string _endPattern = @"^\s*}\s*$";
         static private string _boolPattern = @"^.+\s*:\s*\+|true|True|on|On|-|false|False|off|Off\s*$";
         static private string _pointPattern = @"^.+\s*:\s*\d\.\d+\s*$";
-        static private string _vectorPattern = @"^.+\s*:\s*\d+,\d+\.\d+,\d+\s*$";
+        static private string _vectorPattern = @"^.+\s*:\s*((\d+,\d+)|(\d+))f\.((\d+,\d+)|(\d+))f\s*$";
 
-        public static Heap ReadHeap(string path)
+        public static Heap OpenHeap(string path)
         {
             Heap heap = new Heap();
             string fileName = path + ".heap";
@@ -29,13 +29,21 @@ namespace Solo.Storage
 
             using (StreamReader sr = new StreamReader(fileName))
             {               
-                heap = FillHeap(sr);
+                heap = ReadHeap(sr);
             }
 
             return heap;
         }
 
-        private static Heap FillHeap(StreamReader sr)
+        public static void SaveHeap(Heap heap, string path)
+        {
+            using (StreamWriter sw = new StreamWriter(path + ".heap"))
+            {
+                heap.Save(sw, "");
+            }
+        }
+
+        private static Heap ReadHeap(StreamReader sr)
         {
             Heap heap = new Heap();
 
@@ -64,7 +72,7 @@ namespace Solo.Storage
                         heap.Add(data[1], new Vector2((float)Convert.ToDouble(data[2]), (float)Convert.ToDouble(data[3])));
                         break;
                     case "heap":
-                        heap.Add(data[1], FillHeap(sr));                        
+                        heap.Add(data[1], ReadHeap(sr));                        
                         break;
                     case "end":
                         return heap;
@@ -73,9 +81,7 @@ namespace Solo.Storage
                 }
             }
             return heap;
-        }
-
-        public static bool SaveHeap(Heap heap, string path) { return true; }
+        }      
 
         static private string[] ParseString(string str)
         {
@@ -90,8 +96,8 @@ namespace Solo.Storage
                 answer = new string[3];
 
                 answer[0] = "int";
-                answer[1] = tmp[0].TrimEnd(' ');
-                answer[2] = tmp[1].TrimStart(' ');
+                answer[1] = tmp[0].Trim(' ', '\t');
+                answer[2] = tmp[1].Trim(' ', '\t');
 
                 return answer;    
             }
@@ -103,8 +109,8 @@ namespace Solo.Storage
                 answer = new string[3];
 
                 answer[0] = "float";
-                answer[1] = tmp[0].TrimEnd(' ');
-                answer[2] = tmp[1].TrimStart(' ');
+                answer[1] = tmp[0].Trim(' ', '\t');
+                answer[2] = tmp[1].Trim(' ', '\t', 'f');
 
                 return answer;
             }
@@ -116,8 +122,8 @@ namespace Solo.Storage
                 answer = new string[3];
 
                 answer[0] = "string";
-                answer[1] = tmp[0].TrimEnd(' ');
-                answer[2] = tmp[1].TrimStart(' ').Trim('"');
+                answer[1] = tmp[0].Trim(' ', '\t');
+                answer[2] = tmp[1].Trim(' ', '\t').Trim('"');
 
                 return answer;
             }
@@ -129,8 +135,8 @@ namespace Solo.Storage
                 answer = new string[3];
 
                 answer[0] = "bool";
-                answer[1] = tmp[0].TrimEnd(' ');
-                answer[2] = tmp[1].TrimStart(' ');
+                answer[1] = tmp[0].Trim(' ', '\t');
+                answer[2] = tmp[1].Trim(' ', '\t');
 
                 return answer;
             }
@@ -142,9 +148,9 @@ namespace Solo.Storage
                 answer = new string[4];
 
                 answer[0] = "point";
-                answer[1] = tmp[0].TrimEnd(' ');
+                answer[1] = tmp[0].Trim(' ', '\t');
 
-                string[] tmp2 = tmp[1].TrimStart(' ').Split('.');
+                string[] tmp2 = tmp[1].Trim(' ', '\t').Split('.');
 
                 answer[2] = tmp2[0];
                 answer[3] = tmp2[1];
@@ -159,12 +165,12 @@ namespace Solo.Storage
                 answer = new string[4];
 
                 answer[0] = "vector2";
-                answer[1] = tmp[0].TrimEnd(' ');
+                answer[1] = tmp[0].Trim(' ', '\t');
 
-                string[] tmp2 = tmp[1].TrimStart(' ').Split('.');
+                string[] tmp2 = tmp[1].Trim(' ', '\t').Split('.');
 
-                answer[2] = tmp2[0];
-                answer[3] = tmp2[1];
+                answer[2] = tmp2[0].Trim('f');
+                answer[3] = tmp2[1].Trim('f');
 
                 return answer;
             }
@@ -174,7 +180,7 @@ namespace Solo.Storage
                 answer = new string[2];
 
                 answer[0] = "heap";
-                answer[1] = str.Trim(' ').TrimEnd('{');
+                answer[1] = str.Trim(' ', '\t', '{');
 
                 return answer;
             }

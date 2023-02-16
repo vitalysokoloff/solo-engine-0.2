@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using System.Text;
+using System.IO;
 
 namespace Solo.Storage
 {
@@ -142,6 +143,48 @@ namespace Solo.Storage
             else
             {
                 return new Heap();
+            }
+        }
+
+        public void Save(StreamWriter sw, string indent)
+        {
+            foreach (string key in _ints.Keys)
+            {
+                sw.WriteLine(indent + key + ": " + _ints[key]);
+            }
+
+            foreach (string key in _floats.Keys)
+            {
+                sw.WriteLine(indent + key + ": " + _floats[key] + "f");
+            }
+
+            foreach (string key in _strings.Keys)
+            {
+                sw.WriteLine(indent + key + ": \"" + _strings[key] + "\"");
+            }
+
+            foreach (string key in _bools.Keys)
+            {
+                sw.WriteLine(indent + key + ": " + (_bools[key]? "True" : "False"));
+            }
+
+            foreach (string key in _points.Keys)
+            {
+                sw.WriteLine(indent + key + ": " + _points[key].X + "." + _points[key].Y);
+            }
+
+            foreach (string key in _vectors.Keys)
+            {
+                sw.WriteLine(indent + key + ": " + _vectors[key].X + "f." + _vectors[key].Y + "f");
+            }
+
+            foreach (string key in _heaps.Keys)
+            {
+                sw.WriteLine(indent + key + " {" );
+                indent += "\t";
+                _heaps[key].Save(sw, indent);
+                indent = indent.Remove(indent.Length - 1, 1);
+                sw.WriteLine(indent + "}");                
             }
         }
 
