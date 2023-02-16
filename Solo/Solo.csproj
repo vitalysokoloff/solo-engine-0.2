@@ -51,6 +51,7 @@
     <Compile Include="Solo.Storage.IO.cs" />
     <Compile Include="Solo.Storage.Heap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Solo.Core.Sprite.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
