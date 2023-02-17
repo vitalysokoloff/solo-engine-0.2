@@ -8,6 +8,7 @@ namespace Solo.Core
         void On(); // Включает компонент, это касается, например его отображения
         void Off(); // Выключает
         void GetState(); // Узнать Включён или выключен
+        void OnMove(); // Когда GameObject двигается
         void Update(GameTime gameTime);
         void Draw(SpriteBatch spriteBatch);
     }

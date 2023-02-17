@@ -8,12 +8,36 @@ namespace Solo.Core
 
         public void Add<T>(string key, T value) where T : IComponent
         {
-            _dict.Add(key, value);
+            if (_dict.ContainsKey(key))
+            {
+                _dict[key] = value;
+            }
+            else
+            {
+                _dict.Add(key, value);
+            }
         }
 
         public T Get<T>(string key) where T : class
         {
-            return _dict[key] as T;
+            if (_dict.ContainsKey(key))
+            {
+                return _dict[key] as T;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void SetPhysicsCollider(IComponent collider /* потом заменить на Collider collider*/)
+        {
+            Add("physics", collider);
+        }
+
+        public void SetHitCollider(IComponent collider /* потом заменить на Collider collider*/)
+        {
+            Add("hits", collider);
         }
     }
 }

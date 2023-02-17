@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solo.Core.GameObject.cs" />
     <Compile Include="Solo.Core.Components.cs" />
     <Compile Include="Solo.Core.IComponent.cs" />
     <Compile Include="Solo.Core.IEntity.cs" />
