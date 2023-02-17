@@ -11,7 +11,7 @@ namespace Solo.Core
         protected int current_time;
         protected bool is_start;
 
-        public int Period { get; }
+        public int Period;
         public int Count { get; protected set; }
 
         public Timer(int period)
@@ -62,6 +62,11 @@ namespace Solo.Core
             }
             else
                 return false;
+        }
+
+        static public Timer MakeDefault()
+        {
+            return new Timer(1000);
         }
     }
 }

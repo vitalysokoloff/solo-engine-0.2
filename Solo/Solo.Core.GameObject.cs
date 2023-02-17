@@ -12,6 +12,8 @@ namespace Solo.Core
 
         protected Vector2 _position;
 
+        public void Init() { }
+        public virtual void Start() { }
         public Vector2 GetPosition()
         {
             return _position;

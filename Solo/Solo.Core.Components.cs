@@ -16,6 +16,8 @@ namespace Solo.Core
             {
                 _dict.Add(key, value);
             }
+
+            Get<IComponent>(key).Start();
         }
 
         public T Get<T>(string key) where T : class
