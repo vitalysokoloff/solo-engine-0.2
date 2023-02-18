@@ -1,0 +1,41 @@
+[class ComponentsDictionary] - Хранит в себе IComponent, задаёт доступ по ключу
+
+/* 
+   в GameObject имеет имя Components, посредством этого класса осуществляется доступ к
+   компонентам.
+*/
+
+Методы:
+
+/* Добавление IComponent */
+ public void Add(string key, T value)
+/* 
+    После добавления у IComponent вызывается метод Start(),
+    если ключ уже имеется, то значение по данному ключу будет переписано
+*/
+
+/* Получить IComponent */
+public T Get<T>(string key)
+/* 
+    Вместо <T>  следует указать, тип компонента, IComponent, Sprite, Collider
+*/
+
+/* Добавление спрайта с ключом "main" */
+public void SetMainSprite(Sprite sprite)
+/* 
+    Спрайт с таким ключом, автоматически вызывается в методах Update() и Draw() у parent, игрового объекта.
+    Так что при определении Update() и Draw() в наследниках GameObject, следует учитывать этот момент и 
+    вызывать методы родителя.
+*/
+
+/* Добавление коллайдера с ключом "physics" */
+public void SetPhysicsCollider(Collider collider)
+/* 
+    Коллайдер с таким ключом используется для реализаци физики при столкновении с другими ишровыми объектами
+*/
+
+/* Добавление коллайдера с ключом "hits" */
+public void SetHitsCollider(Collider collider)
+/* 
+    Коллайдер с таким ключом используется для определения попаданий
+*/

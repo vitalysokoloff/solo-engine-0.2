@@ -1,0 +1,63 @@
+[class Sprite] - Класс для отрисовки спрайтов, анимации, реализовывает интерфейс IComponent
+[class SpriteAnimatedInitially] - Для анимированных спрайтов, имеющий количество кадров больше 0, анимации, наследник Sprite, переопределен метода Update()
+[class SpriteAnimatedInitially] - Такой же как и SpriteAnimatedI, но анимация запущена сразу при создании, наследник SpriteAnimated, переопределён метода Start()
+
+!!! Как добавить спрайты объекту смотри Solo_Core_Components !!!
+
+Конструкторы:
+
+public Sprite(Texture2D texture, GameObject parent, Point size)
+/* 
+   parent - игровой объект для которого создаётся Спрайт
+*/
+public Sprite(Texture2D texture, GameObject parent, Point size, Vector2 position, int framesQty)
+public Sprite(Texture2D texture, Rectangle sourceRectangle, GameObject parent, Point size, Vector2 position, int framesQty)
+
+Методы:
+
+public virtual void Start() { }
+/* 
+   Вызывается в конструкторе, следует переопределять имено Start, а не конструктор
+*/
+
+/* установить в милисекундах период цикла таймера */
+public void SetAnimationTimer(int period)
+
+/* Запуск анимации */
+public void AnimationRun()
+
+/* Остановка анимации */
+public void AnimationStop()
+
+/* Сбросить состояние таймера */
+public void AnimationReset()
+
+/* Переключить анимацию на следущий кадр */
+public void FrameMoveRight()
+
+/* Переключить анимацию на предыдущий кадр */
+public void FrameMoveLeft()
+
+/* Получить позицию спрайта (относительно parent, игрового объекта) */
+public Vector2 GetPosition()
+
+/* Изменить состояние компонента на true */
+public void On()
+
+/* Изменить состояние компонента на off */
+public void Off()
+
+/* узнать состояние компонента */
+public bool GetState()
+
+/* Метод, который срабатывает при изменении положения parent, игрового объекта */
+public void OnMove(Vector2 position)
+
+/* Метод, который срабатывает при изменении угла parent, игрового объекта */
+ public void OnRotate(float angle)
+
+/* Здесь стоит реализовывать логику */
+ public virtual void Update(GameTime gameTime)
+
+/* Отрисовка компонента */
+ public virtual void Draw(SpriteBatch spriteBatch)

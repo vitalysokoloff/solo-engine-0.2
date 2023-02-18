@@ -42,7 +42,7 @@ namespace Solo.Core
             Add("physics", collider);
         }
 
-        public void SetHitCollider(IComponent collider /* потом заменить на Collider collider*/)
+        public void SetHitsCollider(IComponent collider /* потом заменить на Collider collider*/)
         {
             Add("hits", collider);
         }
