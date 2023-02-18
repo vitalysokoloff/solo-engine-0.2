@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solo.Core.Scene.cs" />
     <Compile Include="Solo.Core.GameObject.cs" />
     <Compile Include="Solo.Core.Components.cs" />
     <Compile Include="Solo.Core.IComponent.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solo.Core.Sprite.cs" />
     <Compile Include="Solo.Core.Timer.cs" />
+    <Compile Include="Solo.Core.Tools.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

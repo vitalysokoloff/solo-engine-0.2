@@ -32,6 +32,11 @@ namespace Solo.Core
             }
         }
 
+        public void SetMainSprite(Sprite sprite)
+        {
+            Add("main", sprite);
+        }
+
         public void SetPhysicsCollider(IComponent collider /* потом заменить на Collider collider*/)
         {
             Add("physics", collider);
