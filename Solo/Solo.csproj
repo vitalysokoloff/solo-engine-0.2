@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solo.Core.Camera.cs" />
     <Compile Include="Solo.Core.Scene.cs" />
     <Compile Include="Solo.Core.GameObject.cs" />
     <Compile Include="Solo.Core.Components.cs" />
