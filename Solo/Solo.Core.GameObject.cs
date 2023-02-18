@@ -32,9 +32,10 @@ namespace Solo.Core
             Position = position;
             Layer = layer;
             _angle = 0f;
+            Start();
         }
 
-        public void Init() { }
+        protected void Init() { }
 
         public virtual void Start() { }
 

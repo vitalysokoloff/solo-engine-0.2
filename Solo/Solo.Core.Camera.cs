@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Solo.Core
 {
-    public class Camera
+    public class Camera : IEntity
     {
         public Vector2 Position;
         public float Rotation;
