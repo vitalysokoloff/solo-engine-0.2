@@ -1,0 +1,19 @@
+с 19.02
+Сделано:
+Sprite
+Camera, кроме проверки в кадре или нет объект
+TargerCamera
+PlatformerCamera
+GameObject, Получи
+
+Заявлено, но не сделано:
+Collider
+ManualCamera, которая перемещается череза WASD к примеру и это реализовано в Update() камеры
+ManualExtendedCamera, так же как предыдущая, но ещё и с вращением и зумом
+
+Не начато:
+EntityManager
+GameObjectManager
+Physics : IEntity
+PlatformerPhysics : Physics
+GUI

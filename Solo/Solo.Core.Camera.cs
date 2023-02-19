@@ -112,6 +112,11 @@ namespace Solo.Core
         public ManualCamera(GraphicsDevice graphicsDevice) : base (graphicsDevice) { }
     }
 
+    public class ManualExtendedCamera : Camera
+    {
+        public ManualExtendedCamera(GraphicsDevice graphicsDevice) : base(graphicsDevice) { }
+    }
+
     public class FocusCamera : Camera
     {
         public GameObject Focus { get; set; }
@@ -124,6 +129,7 @@ namespace Solo.Core
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             _position.X += (Focus.Position.X - _position.X) * Speed * delta;
@@ -131,8 +137,37 @@ namespace Solo.Core
         }
     }
 
-    public class PlatformerCamera : FocusCamera
+    public class PlatformerCamera : Camera
     {
-        public PlatformerCamera(GraphicsDevice graphicsDevice, GameObject focus) : base(graphicsDevice, focus) { }
+        public GameObject Focus { get; set; }
+        public float Offset { get; set; }
+
+        protected int _factorX;
+        protected int _factorY;
+
+        public PlatformerCamera(GraphicsDevice graphicsDevice, GameObject focus) : base(graphicsDevice)
+        {
+           Focus = focus;
+        }
+
+        public override void Start()
+        {
+            Offset = 200;
+            _factorX = 0;
+            _factorY = 0;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            _factorX = Focus.Direction.X > 0 ? 1 : Focus.Direction.X < 0 ? -1 : 0;
+            _factorY = Focus.Direction.Y > 0 ? 1 : Focus.Direction.Y < 0 ? -1 : 0;
+
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            _position.X += (Focus.Position.X + Offset * _factorX - _position.X) * Speed * delta;
+            _position.Y += (Focus.Position.Y + Offset * _factorY - _position.Y) * Speed * delta;
+        }
     }
 }
