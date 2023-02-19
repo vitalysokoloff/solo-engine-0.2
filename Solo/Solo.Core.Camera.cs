@@ -140,7 +140,9 @@ namespace Solo.Core
     public class PlatformerCamera : Camera
     {
         public GameObject Focus { get; set; }
-        public float Offset { get; set; }
+        public float OffsetX { get; set; }
+        public float OffsetY { get; set; }
+        public float DeltaY { get; set; }
 
         protected int _factorX;
         protected int _factorY;
@@ -152,9 +154,11 @@ namespace Solo.Core
 
         public override void Start()
         {
-            Offset = 200;
+            OffsetX = _viewportWidth / 4;
+            OffsetY = _viewportHeight / 6;
             _factorX = 0;
             _factorY = 0;
+            DeltaY = 128;
         }
 
         public override void Update(GameTime gameTime)
@@ -166,8 +170,8 @@ namespace Solo.Core
 
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _position.X += (Focus.Position.X + Offset * _factorX - _position.X) * Speed * delta;
-            _position.Y += (Focus.Position.Y + Offset * _factorY - _position.Y) * Speed * delta;
+            _position.X += (Focus.Position.X + OffsetX * _factorX - _position.X) * Speed * delta;
+            _position.Y += (Focus.Position.Y + OffsetY * _factorY - DeltaY - _position.Y) * Speed * delta;
         }
     }
 }
