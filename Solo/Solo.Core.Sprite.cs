@@ -30,7 +30,7 @@ namespace Solo.Core
         {
             Init(texture, new Rectangle(0, 0, size.X, size.Y), parent, size);
             _position = Vector2.Zero;
-            _drawRectangle = new Rectangle((int)_parent.GetPosition().X, (int)_parent.GetPosition().Y, _size.X, _size.Y);            
+            _drawRectangle = new Rectangle((int)_parent.Position.X, (int)_parent.Position.Y, _size.X, _size.Y);            
             _framesQty = 1;
             Start();
         }
@@ -47,7 +47,7 @@ namespace Solo.Core
         {
             Init(texture, new Rectangle(0, 0, size.X, size.Y), parent, size);
             _position = position;
-            _drawRectangle = new Rectangle((int)(_parent.GetPosition().X + _position.X), (int)(_parent.GetPosition().Y + _position.Y), _size.X, _size.Y);            
+            _drawRectangle = new Rectangle((int)(_parent.Position.X + _position.X), (int)(_parent.Position.Y + _position.Y), _size.X, _size.Y);            
             _framesQty = framesQty;
             Start();
         }
@@ -65,7 +65,7 @@ namespace Solo.Core
         {
             Init(texture, sourceRectangle, parent, size);
             _position = position;
-            _drawRectangle = new Rectangle((int)(_parent.GetPosition().X + _position.X), (int)(_parent.GetPosition().Y + _position.Y), _size.X, _size.Y);
+            _drawRectangle = new Rectangle((int)(_parent.Position.X + _position.X), (int)(_parent.Position.Y + _position.Y), _size.X, _size.Y);
             _framesQty = framesQty;
             Start();
         }

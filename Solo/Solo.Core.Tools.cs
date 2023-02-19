@@ -13,5 +13,18 @@ namespace Solo.Core
         {
             return (int)(angle * 180 / Math.PI);
         }
+
+        public static float CalculateAngle(float sum)
+        {
+            if (sum == Tools.DegreesToRadians(360))
+                sum = 0;
+
+            if (sum > 6.283f)
+                sum = CalculateAngle(sum - 6.283f);
+            if (sum < 0f)
+                sum = CalculateAngle(6.283f + sum);
+
+            return sum;
+        }
     }
 }

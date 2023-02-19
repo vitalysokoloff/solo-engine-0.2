@@ -4,7 +4,7 @@ namespace Solo.Core
 {
     public class ComponentsDictionary
     {
-        private Dictionary<string, object> _dict = new Dictionary<string, object>();
+        private Dictionary<string, IComponent> _dict = new Dictionary<string, IComponent>();
 
         public void Add<T>(string key, T value) where T : IComponent
         {

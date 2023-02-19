@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Solo.Core
 {
-    public interface IComponent
+    public interface IComponent 
     {
         void Start();
         void On(); // Включает компонент, это касается, например его отображения

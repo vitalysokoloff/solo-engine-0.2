@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Solo.Core
 {
-    public class GameObject
+    public class GameObject : IEntity
     {
         public ComponentsDictionary Components { get; }
-        public float Layer { get; protected set; }
-        public Vector2 Position { get; protected set; }
+        public float Layer { get; protected set; }      
+        
         public float Angle
         {
             get
@@ -17,11 +17,20 @@ namespace Solo.Core
             }
         }
 
+        public Vector2 Position
+        {
+            get
+            {
+                return _position;
+            }
+        }
+
         public delegate void MoveDelegate(Vector2 position);
         public event MoveDelegate MoveEvent;
         public delegate void RotateDelegate(float angle);
         public event RotateDelegate RotateEvent;
 
+        protected Vector2 _position;
         protected Scene _parent;
         protected float _angle;
 
@@ -29,7 +38,7 @@ namespace Solo.Core
         {
             Components = new ComponentsDictionary();
             _parent = parent;
-            Position = position;
+            _position = position;
             Layer = layer;
             _angle = 0f;
             Start();
@@ -41,41 +50,23 @@ namespace Solo.Core
 
         public virtual void OnCollide() { }
 
-        public Vector2 GetPosition()
-        {
-            return Position;
-        }
-
         public void SetPosition(Vector2 newPosition)
         {
-            Position = newPosition;
-            MoveEvent?.Invoke(Position);
+            _position = newPosition;
+            MoveEvent?.Invoke(_position);
         }
 
         public void Move(Vector2 delta)
         {
-            Position += delta;
-            MoveEvent?.Invoke(Position);
+            _position += delta;
+            MoveEvent?.Invoke(_position);
         }
 
         public void Rotate(float deltaAngle)
         {
-            _angle = CalculateAngle(_angle + deltaAngle);
+            _angle = Tools.CalculateAngle(_angle + deltaAngle);
 
             RotateEvent?.Invoke(_angle);
-        }
-
-        private float CalculateAngle(float sum)
-        {
-            if (sum == Tools.DegreesToRadians(360))
-                sum = 0;
-
-            if (sum > 6.283f)
-                sum = CalculateAngle(sum - 6.283f);
-            if (sum < 0f)
-                sum = CalculateAngle(6.283f + sum);
-
-            return sum;
         }
 
         public virtual void Update(GameTime gameTime)
