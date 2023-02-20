@@ -130,10 +130,10 @@ namespace Solo.Core
         {
             base.Update(gameTime);
 
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _position.X += (Focus.Position.X - _position.X) * Speed * delta;
-            _position.Y += (Focus.Position.Y - _position.Y) * Speed * delta;
+            _position.X += (Focus.Position.X - _position.X) * Speed * deltaTime;
+            _position.Y += (Focus.Position.Y - _position.Y) * Speed * deltaTime;
         }
     }
 
@@ -158,7 +158,7 @@ namespace Solo.Core
             OffsetY = _viewportHeight / 6;
             _factorX = 0;
             _factorY = 0;
-            DeltaY = 128;
+            DeltaY = ScreenCenter.Y - 128;
         }
 
         public override void Update(GameTime gameTime)

@@ -7,8 +7,10 @@ namespace Solo.Core
     public class GameObject : IEntity
     {
         public ComponentsDictionary Components { get; }
-        public float Layer { get; protected set; }      
-        
+        public float Layer { get; protected set; }
+        public float Speed { get; set; }
+        public float Mass { get; set; }
+
         public float Angle
         {
             get
@@ -31,9 +33,7 @@ namespace Solo.Core
             {
                 return _direction;
             }
-        }
-
-        public float Speed { get; set; }
+        }        
 
         public delegate void MoveDelegate(Vector2 position);
         public event MoveDelegate MoveEvent;
@@ -75,11 +75,11 @@ namespace Solo.Core
             MoveEvent?.Invoke(_position);
         }
 
-        public void Move(Vector2 delta)
+        public void Move(Vector2 force)
         {
-            _position += delta * Speed;
+            _position += force * Speed;
 
-            _direction = delta;
+            _direction = force;
 
             MoveEvent?.Invoke(_position);
         }
@@ -104,8 +104,8 @@ namespace Solo.Core
 
             if (_debugMode)
             {
-                //if (Components.Get<Collider>("phesics") != null)
-                    //Components.Get<Collider>("phesics").Draw(spriteBatch);
+                //if (Components.Get<Collider>("physical") != null)
+                //  Components.Get<Collider>("physical").Draw(spriteBatch);
             }
         }
     }

@@ -14,6 +14,7 @@ ManualExtendedCamera, так же как предыдущая, но ещё и с
 Не начато:
 EntityManager
 GameObjectManager
-Physics : IEntity
+Physics : IComponent
 PlatformerPhysics : Physics
+CollideDetector : IEntity
 GUI

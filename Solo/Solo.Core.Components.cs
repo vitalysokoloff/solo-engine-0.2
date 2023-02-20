@@ -18,6 +18,14 @@ namespace Solo.Core
             }
         }
 
+        public void Delete(string key)
+        {
+            if (_dict.ContainsKey(key))
+            {
+                _dict.Remove(key);
+            }
+        }
+
         public T Get<T>(string key) where T : class
         {
             if (_dict.ContainsKey(key))
@@ -37,7 +45,7 @@ namespace Solo.Core
 
         public void SetPhysicsCollider(IComponent collider /* потом заменить на Collider collider*/)
         {
-            Add("physics", collider);
+            Add("physical", collider);
         }
 
         public void SetHitsCollider(IComponent collider /* потом заменить на Collider collider*/)
