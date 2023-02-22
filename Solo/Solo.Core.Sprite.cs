@@ -17,7 +17,7 @@ namespace Solo.Core
         protected Vector2 _pivot;
         protected GameObject _parent;
         protected Timer _timer;
-        protected Color color;
+        protected Color _color;
         protected float _angle;
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Solo.Core
             _state = true;
             _frameNumber = 0;
             _timer = Timer.MakeDefault();
-            color = Color.White;
+            _color = Color.White;
             _angle = 0;
 
             _parent.MoveEvent += OnMove;
@@ -167,7 +167,7 @@ namespace Solo.Core
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, _drawRectangle, _sourceRectangle, color, _angle, _pivot, SpriteEffects.None, _parent.Layer);
+            spriteBatch.Draw(Texture, _drawRectangle, _sourceRectangle, _color, _angle, _pivot, SpriteEffects.None, _parent.Layer);
         }
 
     }

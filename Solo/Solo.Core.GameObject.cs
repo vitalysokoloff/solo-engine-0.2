@@ -62,11 +62,13 @@ namespace Solo.Core
 
         public virtual void Start() { }
 
-        public virtual void OnCollide() { }
+        public void OnCollide() { }
+
+        public virtual void OnHit() { }
 
         public virtual void OnDebug(bool status)
         {
-
+            _debugMode = status;
         }
 
         public void SetPosition(Vector2 newPosition)

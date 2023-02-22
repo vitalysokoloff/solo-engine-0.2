@@ -2,8 +2,8 @@
 
 namespace Solo.Core
 {
-    // Код из Solo Engine 0.1
     /// <summary>
+    /// Код из Solo Engine 0.1
     /// Timer. After creation, you should run the Start(). 1000 - is one second.
     /// </summary>
     public class Timer
