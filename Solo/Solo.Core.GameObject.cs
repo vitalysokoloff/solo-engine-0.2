@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Solo.Physics;
 
 namespace Solo.Core
 {
@@ -53,7 +54,7 @@ namespace Solo.Core
             Layer = layer;
             _angle = 0f;
             _direction = Vector2.Zero;
-            _debugMode = false;
+            _debugMode = true;
             Speed = 1;
             Start();
         }
@@ -106,8 +107,8 @@ namespace Solo.Core
 
             if (_debugMode)
             {
-                //if (Components.Get<Collider>("physical") != null)
-                //  Components.Get<Collider>("physical").Draw(spriteBatch);
+                if (Components.Get<Collider>("physical") != null)
+                  Components.Get<Collider>("physical").Draw(spriteBatch);
             }
         }
     }

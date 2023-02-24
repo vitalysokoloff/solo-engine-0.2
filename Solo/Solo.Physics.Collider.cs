@@ -48,17 +48,23 @@ namespace Solo.Physics
         /// <summary>
         /// the pivot is always in the middle of the shape
         /// </summary>
-        public Collider(Rectangle rectangle)
+        public Collider(GameObject parent, Rectangle rectangle)
         {
             _angle = 0f;
+            _parent = parent;
+            parent.MoveEvent += OnMove;
+            parent.RotateEvent += OnRotate;
         }
 
         /// <summary>
         /// the pivot is always in the middle of the shape
         /// </summary>
-        public Collider(int x, int y, int width, int height)
+        public Collider(GameObject parent, int x, int y, int width, int height)
         {
+            _parent = parent;
             _angle = 0f;
+            parent.MoveEvent += OnMove;
+            parent.RotateEvent += OnRotate;
         }
 
         public virtual void Start() { }
@@ -89,63 +95,53 @@ namespace Solo.Physics
             SetBasePoints(); // Установка точек относительно новых координат позишн
         }
 
+        public void SetColor(Color color)
+        {
+            _color = color;
+        }
+
         public void OnMove(Vector2 position)
         {
-            _drawRectangle = new Rectangle((int)(position.X + _position.X), (int)(position.Y + _position.Y), _size.X, _size.Y);
+            _drawRectangle.X = (int)GlobalPosition.X;
+            _drawRectangle.Y = (int)GlobalPosition.Y;
+            _basePoints[0] = GlobalPosition;
+            _basePoints[1] = GlobalPosition + new Vector2(_size.X, 0);
+            _basePoints[2] = GlobalPosition + new Vector2(_size.X, _size.Y);
+            _basePoints[3] = GlobalPosition + new Vector2(0, _size.Y);
+            Points[0] += GlobalPosition;
+            Points[1] += GlobalPosition;
+            Points[2] += GlobalPosition;
+            Points[3] += GlobalPosition;
         }
 
-
-
-        public virtual void SetAngle(float angle)
+        public void OnRotate(float angle)
         {
-            AngleRotation = angle;
+            _angle = angle;
             RotatePoints();
         }
 
-        public virtual void SetAngle(int angle)
+        public virtual bool Intersects(Collider collider)
         {
-            SetAngle((float)(angle * Math.PI / 180));
+            return GJK.CheckCollision(this, collider);
         }
 
-        public void Rotate(int deltaAngle)
+        public virtual void GenerateTexture(GraphicsDeviceManager graphics)
         {
-            float oldAngle = AngleRotation;
-            float newAngle = AngleRotation + (float)(deltaAngle * Math.PI / 180);
-            float delta = newAngle - oldAngle;
-            float a360 = (float)(360 * Math.PI / 180);
-            if (delta < 0)
-            {
-                AngleRotation = a360 - delta;
-            }
-            if (newAngle > a360)
-                AngleRotation = delta;
-            if (newAngle >= 0 && newAngle <= a360)
-                AngleRotation = newAngle;
-            RotatePoints();
-        }
-
-        public virtual bool Intersects(Collider shape)
-        {
-            return GJK.CheckCollision(this, shape);
-        }
-
-        public virtual void SetTexture(GraphicsDeviceManager graphics, Color color)
-        {
-            Texture = new Texture2D(graphics.GraphicsDevice, (int)Size.X + 1, (int)Size.Y + 1);
+            Texture = new Texture2D(graphics.GraphicsDevice, (int)Size.X + 2, (int)Size.Y + 2);
             Color[] data = new Color[Texture.Width * Texture.Height];
             Texture.SetData(data);
             Vector2 point0 = GlobalPosition; // для приведения к новой системе координат в верхней левой точке
             for (int i = 0; i < Points.Length - 1; i++)
-                Tools.DrawLine(Texture, color, Points[i] - point0, Points[i + 1] - point0);
-            Tools.DrawLine(Texture, color, Points[Points.Length - 1] - point0, Points[0] - point0);
+                Tools.DrawLine(Texture, _color, Points[i] - point0, Points[i + 1] - point0);
+            Tools.DrawLine(Texture, _color, Points[Points.Length - 1] - point0, Points[0] - point0);
         }
 
         protected void RotatePoints()
         {
             for (int i = 0; i < Points.Length; i++)
                 Points[i] = new Vector2(
-                (float)((_basePoints[i].X - _pivot.X) * Math.Cos(AngleRotation) - (_basePoints[i].Y - _pivot.Y) * Math.Sin(AngleRotation) + _pivot.X),
-                (float)((_basePoints[i].X - _pivot.X) * Math.Sin(AngleRotation) + (_basePoints[i].Y - _pivot.Y) * Math.Cos(AngleRotation) + _pivot.Y)
+                (float)((_basePoints[i].X - _pivot.X) * Math.Cos(_angle) - (_basePoints[i].Y - _pivot.Y) * Math.Sin(_angle) + _pivot.X),
+                (float)((_basePoints[i].X - _pivot.X) * Math.Sin(_angle) + (_basePoints[i].Y - _pivot.Y) * Math.Cos(_angle) + _pivot.Y)
                 );
         }
 

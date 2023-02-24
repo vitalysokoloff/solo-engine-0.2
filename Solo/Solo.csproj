@@ -45,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collider.cs" />
+    <Compile Include="Solo.Physics.Collider.Rect.cs" />
+    <Compile Include="Solo.Physics.Collider.cs" />
     <Compile Include="Solo.Physics.GJK.cs" />
     <Compile Include="Solo.Core.Camera.cs" />
     <Compile Include="Solo.Core.Scene.cs" />

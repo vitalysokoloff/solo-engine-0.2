@@ -1,4 +1,4 @@
-с 19.02
+﻿с 19.02
 Сделано:
 Sprite
 Camera, кроме проверки в кадре или нет объект
@@ -7,7 +7,7 @@ PlatformerCamera
 GameObject, Получи
 
 Заявлено, но не сделано:
-Collider
+Collider - SetBasePoints решить с этим моментом чтоб два раза не повторять
 ManualCamera, которая перемещается череза WASD к примеру и это реализовано в Update() камеры
 ManualExtendedCamera, так же как предыдущая, но ещё и с вращением и зумом
 
