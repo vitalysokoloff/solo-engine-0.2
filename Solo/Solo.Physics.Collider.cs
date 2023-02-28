@@ -135,16 +135,16 @@ namespace Solo.Physics
             Color[] data = new Color[Texture.Width * Texture.Height];
             Texture.SetData(data);
             for (int i = 0; i < _points.Length - 1; i++)
-                Tools.DrawLine(Texture, _color, _points[i], _points[i + 1]);
-            Tools.DrawLine(Texture, _color, _points[_points.Length - 1], _points[0]);
+                Tools.DrawLine(Texture, _color, _points[i] + _pivot, _points[i + 1] + _pivot);
+            Tools.DrawLine(Texture, _color, _points[_points.Length - 1] + _pivot, _points[0] + _pivot);
         }
 
         protected void RotatePoints()
         {
             for (int i = 0; i < _points.Length; i++)
                 _points[i] = new Vector2(
-                (float)((_basePoints[i].X - _pivot.X) * Math.Cos(_angle) - (_basePoints[i].Y - _pivot.Y) * Math.Sin(_angle) + _pivot.X),
-                (float)((_basePoints[i].X - _pivot.X) * Math.Sin(_angle) + (_basePoints[i].Y - _pivot.Y) * Math.Cos(_angle) + _pivot.Y)
+                (float)((_basePoints[i].X ) * Math.Cos(_angle) - (_basePoints[i].Y) * Math.Sin(_angle)),
+                (float)((_basePoints[i].X ) * Math.Sin(_angle) + (_basePoints[i].Y) * Math.Cos(_angle))
                 );
         }
 

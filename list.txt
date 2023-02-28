@@ -4,10 +4,13 @@ Sprite
 Camera, кроме проверки в кадре или нет объект
 TargerCamera
 PlatformerCamera
-GameObject, Получи
+GameObject, Частично
+GJK
+Collider
+Rect : Collider
+RegularPolygon : Collider
 
 Заявлено, но не сделано:
-Collider - SetBasePoints решить с этим моментом чтоб два раза не повторять
 ManualCamera, которая перемещается череза WASD к примеру и это реализовано в Update() камеры
 ManualExtendedCamera, так же как предыдущая, но ещё и с вращением и зумом
 
