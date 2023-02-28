@@ -67,6 +67,7 @@ namespace Solo.Physics
             _parent = parent;
             parent.MoveEvent += OnMove;
             parent.RotateEvent += OnRotate;
+            On();
         }
 
         public virtual void Start() { }

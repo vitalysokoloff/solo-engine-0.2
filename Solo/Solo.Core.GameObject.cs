@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Solo.Physics;
 
@@ -63,9 +62,20 @@ namespace Solo.Core
 
         public virtual void Start() { }
 
-        public void OnCollide() { }
+        public void OnCollide(GameObject interacting, string colliderName)
+        {
+            if (colliderName == "physical")
+                OnPhysics(interacting);
+            else
+                OnHit(interacting, colliderName);
+        }
 
-        public virtual void OnHit() { }
+        public virtual void OnPhysics(GameObject interacting)
+        {
+            Rotate(Tools.DegreesToRadians(45));
+        }
+
+        public virtual void OnHit(GameObject interacting, string colliderName) { }
 
         public virtual void OnDebug(bool status)
         {
