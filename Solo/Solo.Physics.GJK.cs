@@ -86,13 +86,13 @@ namespace Solo.Physics
         private static Vector2 averagePoint(Collider c1)
         {
             Vector2 avg = new Vector2(0, 0);
-            for (int i = 0; i < c1.Points.Length; i++)
+            for (int i = 0; i < c1.GetPointsLength(); i++)
             {
-                avg.X += c1.Points[i].X;
-                avg.Y += c1.Points[i].Y;
+                avg.X += c1.GetPoint(i).X;
+                avg.Y += c1.GetPoint(i).Y;
             }
-            avg.X /= c1.Points.Length;
-            avg.Y /= c1.Points.Length;
+            avg.X /= c1.GetPointsLength();
+            avg.Y /= c1.GetPointsLength();
             return avg;
         }
 
@@ -106,17 +106,17 @@ namespace Solo.Physics
             int j = indexOfFurthestPoint(c2, negate(d));
 
             // вычитание (сумма Минковского) двух точек, чтобы увидеть, перекрываются ли тела
-            Vector2 r = c1.Points[i] - c2.Points[j];
+            Vector2 r = c1.GetPoint(i) - c2.GetPoint(j);
             return new Vector2(r.X, r.Y);
         }
 
         private static int indexOfFurthestPoint(Collider c1, Vector2 d)
         {
-            float maxProduct = dotProduct(d, c1.Points[0]);
+            float maxProduct = dotProduct(d, c1.GetPoint(0));
             int index = 0;
-            for (int i = 1; i < c1.Points.Length; i++)
+            for (int i = 1; i < c1.GetPointsLength(); i++)
             {
-                float product = dotProduct(d, c1.Points[i]);
+                float product = dotProduct(d, c1.GetPoint(i));
                 if (product > maxProduct)
                 {
                     maxProduct = product;
