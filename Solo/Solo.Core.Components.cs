@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Solo.Physics;
 
 namespace Solo.Core
 {
@@ -43,14 +44,14 @@ namespace Solo.Core
             Add("main", sprite);
         }
 
-        public void SetPhysicalCollider(IComponent collider /* потом заменить на Collider collider*/)
+        public void SetPhysicalCollider(Collider collider)
         {
             Add("physical", collider);
         }
 
-        public void SetHitsCollider(IComponent collider /* потом заменить на Collider collider*/)
+        public void SetPhysics(PhysicsComponent physics)
         {
-            Add("hits", collider);
+            Add("physics", physics);
         }
     }
 }

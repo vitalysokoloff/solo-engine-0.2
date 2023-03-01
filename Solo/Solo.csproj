@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollideDetector.cs" />
+    <Compile Include="Solo.Physics.SimplePhysicsComponent.cs" />
+    <Compile Include="Solo.Physics.PhysicsComponent.cs" />
+    <Compile Include="Solo.Physics.CollideDetector.cs" />
     <Compile Include="Solo.Physics.RegularPolygon.cs" />
     <Compile Include="Solo.Physics.Collider.Rect.cs" />
     <Compile Include="Solo.Physics.Collider.cs" />
