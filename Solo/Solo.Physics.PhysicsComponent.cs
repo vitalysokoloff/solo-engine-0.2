@@ -20,7 +20,8 @@ namespace Solo.Physics
         private void Init(GameObject parent)
         {
             _parent = parent;
-            _parent.PhysicsEvent += OnCollide;
+            _parent.OnCollideEvent += OnCollide;
+            _parent.OnNoCollideEvent += OnNoCollide;
             On();
         }
 
@@ -47,6 +48,11 @@ namespace Solo.Physics
         }
 
         public virtual void OnCollide(GameObject interacting)
+        {
+
+        }
+
+        public virtual void OnNoCollide()
         {
 
         }

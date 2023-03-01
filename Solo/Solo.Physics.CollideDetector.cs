@@ -47,12 +47,16 @@ namespace Solo.Physics
                                 Collider collider = _objects[key].Components.Get<Collider>(name);
                                 Collider actorCollider = _objects[actor].Components.Get<Collider>(name);
                                 if (actorCollider.Intersects(collider))
+                                {
                                     _objects[actor].OnCollide(_objects[key], name);
-                            }
+                                    return;
+                                }
+                                _objects[actor].OnNoCollide();
+                            }                            
                         }
                     }
                     else
-                        continue;
+                        continue;                    
                 }
         }
     }

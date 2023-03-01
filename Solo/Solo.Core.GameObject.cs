@@ -75,8 +75,11 @@ namespace Solo.Core
         public delegate void RotateDelegate(float angle);
         public event RotateDelegate RotateEvent;
 
-        public delegate void PhysicsDelegate(GameObject interacting);
-        public event PhysicsDelegate PhysicsEvent;
+        public delegate void CollideDelegate(GameObject interacting);
+        public event CollideDelegate OnCollideEvent;
+
+        public delegate void NoCollideDelegate();
+        public event NoCollideDelegate OnNoCollideEvent;
 
         protected Vector2 _position;
         protected float _angle;
@@ -104,14 +107,14 @@ namespace Solo.Core
         public void OnCollide(GameObject interacting, string colliderName)
         {
             if (colliderName == "physical")
-                PhysicsEvent?.Invoke(interacting);
+                OnCollideEvent?.Invoke(interacting);
             else
                 OnHit(interacting, colliderName);
         }
 
-        public void OnPhysics(GameObject interacting)
+        public void OnNoCollide()
         {
-            Move(-Direction);
+            OnNoCollideEvent?.Invoke();
         }
 
         public virtual void OnHit(GameObject interacting, string colliderName) { }
