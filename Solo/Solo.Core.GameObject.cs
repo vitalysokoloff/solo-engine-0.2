@@ -8,8 +8,42 @@ namespace Solo.Core
     {
         public ComponentsDictionary Components { get; }
         public float Layer { get; protected set; }
-        public float Speed { get; set; }
-        public float Mass { get; set; }
+
+        public Vector2 Speed
+        { 
+            get
+            {
+                return _speed;
+            }
+            set
+            {
+                _speed = value;
+            }
+        }
+
+        public float SpeedX
+        {
+            get
+            {
+                return _speed.X;
+            }
+            set
+            {
+                _speed.X = value;
+            }
+        }
+
+        public float SpeedY
+        {
+            get
+            {
+                return _speed.Y;
+            }
+            set
+            {
+                _speed.Y = value;
+            }
+        }
 
         public float Angle
         {
@@ -46,6 +80,7 @@ namespace Solo.Core
 
         protected Vector2 _position;
         protected float _angle;
+        protected Vector2 _speed;
         protected Vector2 _direction;
         protected bool _debugMode;
 
@@ -58,7 +93,7 @@ namespace Solo.Core
             _angle = 0f;
             _direction = Vector2.Zero;
             _debugMode = true;
-            Speed = 1;
+            _speed = Vector2.One;
             Start();
         }
 
@@ -94,7 +129,7 @@ namespace Solo.Core
 
         public void Move(Vector2 force)
         {
-            _position += force * Speed;
+            _position += force * _speed;
 
             _direction = force;
 
@@ -112,6 +147,8 @@ namespace Solo.Core
         {
             if (Components.Get<Sprite>("main") != null)
                 Components.Get<Sprite>("main").Update(gameTime);
+            if (Components.Get<PhysicsComponent>("physics") != null)
+                Components.Get<PhysicsComponent>("physics").Update(gameTime);
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
