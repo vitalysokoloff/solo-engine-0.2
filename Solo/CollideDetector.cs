@@ -26,8 +26,8 @@ namespace Solo.Physics
 
         public void AddActor(string name)
         {
-            if (!_colliders.Contains(name))
-                _colliders.Add(name);
+            if (!_actors.Contains(name))
+                _actors.Add(name);
         }
 
         public virtual void Start() { }
