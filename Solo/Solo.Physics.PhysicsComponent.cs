@@ -6,7 +6,7 @@ using Solo.Core;
 
 namespace Solo.Physics
 {
-    public class PhysicsComponent : IComponent
+    public abstract class PhysicsComponent : IComponent
     {
         protected bool _state;
         protected GameObject _parent;

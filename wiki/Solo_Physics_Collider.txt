@@ -1,0 +1,69 @@
+[abstract lass Collider : IComponent] - компонент для коллизий 
+
+class Rect - прямоугольник
+class RegularPolygon - правильный многоугольник.
+
+
+Конструкторы:
+public Collider(GameObject parent, Rectangle rectangle)
+public Collider(GameObject parent, int x, int y, int width, int height)
+
+
+Поля:
+
+public Vector2 GlobalPosition
+
+public float Angle
+
+public Vector2 Size
+
+public Texture2D Texture 
+
+Методы:
+
+public virtual void Start() { }
+/* 
+   Вызывается в конструкторе, следует переопределять имено Start, а не конструктор
+*/
+
+/* Изменить состояние компонента на true */
+public void On()
+
+/* Изменить состояние компонента на off */
+public void Off()
+
+/* узнать состояние компонента */
+public bool GetState()
+
+/* Получить позицию спрайта (относительно parent, игрового объекта) */
+public Vector2 GetPosition()
+
+/* Получить координаты вершины с индексом n в глобальных координатах  */
+public Vector2 GetPoint(int n)
+
+/* Получить количество вершин */
+public int GetPointsLength()
+
+/* Установить позицию спрайта (относительно parent, игрового объекта) */
+public void SetPosition(Vector2 newPosition)
+
+/* Установить цвет коллайдера */
+public void SetColor(Color color)
+
+/* Метод, который срабатывает при изменении положения parent, игрового объекта */
+public void OnMove(Vector2 position)
+
+/* Метод, который срабатывает при изменении угла parent, игрового объекта */
+public void OnRotate(float angle)
+
+/* Проверка пересечения коллайдеров */
+public virtual bool Intersects(Collider collider)
+
+/* Сгенинрировать текстуру, для того чтобы отрисовывать коллайдер в Draw() */
+public virtual void GenerateTexture(GraphicsDeviceManager graphics)
+
+/* Здесь стоит реализовывать логику */
+public virtual void Update(GameTime gameTime)
+
+/* Отрисовка компонента */
+ public virtual void Draw(SpriteBatch spriteBatch
