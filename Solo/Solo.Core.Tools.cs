@@ -6,6 +6,13 @@ namespace Solo.Core
 {
     public static class Tools
     {
+        public static Vector2 VectorToNormal(Vector2 a)
+        {
+            float length = (float)Math.Sqrt(a.X * a.X + a.Y * a.Y); // получаем длину вектора
+            a = new Vector2(a.X / length, a.Y / length); // получаем единичный вектор
+            return new Vector2(-a.Y, a.X);            // получаем нормаль, поворот на -90
+        }
+
         public static float DegreesToRadians(int angle)
         {
             return (float)(angle * Math.PI / 180);

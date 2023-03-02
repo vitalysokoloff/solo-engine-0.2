@@ -9,10 +9,12 @@ namespace Solo.Physics
         protected bool _isOnCollide;
         protected float _force;
         protected float _gravity;
+        protected Vector2 _lastDirection;
 
         public PlatformerPhysics(GameObject parent, float gravity) : base(parent)
         {
             _parent.SpeedY = gravity;
+            _lastDirection = _parent.Direction;
             _gravity = gravity;
             _force = 0;
             _gravityDirection = new Vector2(0, 1);
@@ -20,21 +22,20 @@ namespace Solo.Physics
 
         public override void OnCollide(GameObject interacting)
         {
-            _force = _gravity;
-            _parent.Move(-_parent.Direction - _gravityDirection);
-            _gravityDirection.Y = 0;
+            
+
         }
 
         public override void OnNoCollide()
         {
-            _gravityDirection.Y = 1;
-            _force = 0;
+            _parent.VelocityY = _gravity;
+            _parent.Move(_gravityDirection);
         }
 
         public override void Update(GameTime gameTime)
         {
-            _parent.SpeedY = _gravity - _force;
-            _parent.Move(_gravityDirection);
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _parent.ImpulseY = _parent.ImpulseY - _parent.ImpulseY * deltaTime;
         }
     }
 }

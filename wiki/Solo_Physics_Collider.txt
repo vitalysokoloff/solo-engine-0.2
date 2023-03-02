@@ -39,7 +39,11 @@ public bool GetState()
 public Vector2 GetPosition()
 
 /* Получить координаты вершины с индексом n в глобальных координатах  */
+public Vector2 GetGlobalPoint(int n)
+
+/* Получить координаты вершины с индексом n */
 public Vector2 GetPoint(int n)
+
 
 /* Получить количество вершин */
 public int GetPointsLength()

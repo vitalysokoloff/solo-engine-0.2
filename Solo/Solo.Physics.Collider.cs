@@ -5,7 +5,7 @@ using Solo.Core;
 
 namespace Solo.Physics
 {
-    public abstract class Collider : IComponent
+    public class Collider : ICollider
     {
         public Vector2 GlobalPosition
         {
@@ -92,9 +92,14 @@ namespace Solo.Physics
             return _position;
         }
 
-        public Vector2 GetPoint(int n)
+        public Vector2 GetGlobalPoint(int n)
         {
             return _points[n] + GlobalPosition;
+        }
+
+        public Vector2 GetPoint(int n)
+        {
+            return _points[n];
         }
 
         public int GetPointsLength()
@@ -125,9 +130,38 @@ namespace Solo.Physics
             RotatePoints();
         }
 
-        public virtual bool Intersects(Collider collider)
+        public virtual bool Intersects(ICollider collider)
         {
             return GJK.CheckCollision(this, collider);
+        }
+
+        public virtual Vector2 GetNormal(ICollider collider)
+        {
+            Vector2 n = Vector2.Zero;
+            Edge edge;
+            Vector2[] points;
+
+            for ( int i = 0; i < collider.GetPointsLength() - 1; i++)
+            {
+                points = new Vector2[] { collider.GetGlobalPoint(i), collider.GetGlobalPoint(i + 1) };
+                edge = new Edge(points);
+                if (Intersects(edge))
+                {
+                    Vector2 a = points[1] - points[0]; // получаем вектор в новой системе координат
+                    return Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
+                }
+            }
+
+            points = new Vector2[] { collider.GetGlobalPoint(collider.GetPointsLength() - 1), collider.GetGlobalPoint(0) };
+            edge = new Edge(points);
+            if (Intersects(edge))
+            {
+                Vector2 a = points[1] - points[0]; // получаем вектор в новой системе координат
+                return Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
+            }
+
+            return n;
+
         }
 
         public virtual void GenerateTexture(GraphicsDeviceManager graphics)
@@ -149,7 +183,7 @@ namespace Solo.Physics
                 );
         }
 
-        protected abstract void SetBasePoints();
+        protected virtual void SetBasePoints() { }
 
         public virtual void Update(GameTime gameTime)
         {

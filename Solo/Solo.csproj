@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Edge.cs" />
+    <Compile Include="Solo.Core.ICollider.cs" />
     <Compile Include="PlatformerPhysics.cs" />
     <Compile Include="Solo.Physics.SimpleImpactPhysics.cs" />
     <Compile Include="Solo.Physics.SimplePhysics.cs" />

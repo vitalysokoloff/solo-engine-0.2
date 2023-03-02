@@ -11,7 +11,7 @@ namespace Solo.Physics
         /// <param name="c1"></param>
         /// <param name="c2"></param>
         /// <returns></returns>
-        public static bool CheckCollision(Collider c1, Collider c2)
+        public static bool CheckCollision(ICollider c1, ICollider c2)
         {
             int index = 0; // индекс текущей точки симплекса
             Vector2 a, b, c, d, ao, ab, ac, abperp, acperp;
@@ -83,20 +83,20 @@ namespace Solo.Physics
             }
         }
 
-        private static Vector2 averagePoint(Collider c1)
+        private static Vector2 averagePoint(ICollider c1)
         {
             Vector2 avg = new Vector2(0, 0);
             for (int i = 0; i < c1.GetPointsLength(); i++)
             {
-                avg.X += c1.GetPoint(i).X;
-                avg.Y += c1.GetPoint(i).Y;
+                avg.X += c1.GetGlobalPoint(i).X;
+                avg.Y += c1.GetGlobalPoint(i).Y;
             }
             avg.X /= c1.GetPointsLength();
             avg.Y /= c1.GetPointsLength();
             return avg;
         }
 
-        private static Vector2 support(Collider c1, Collider c2, Vector2 d)
+        private static Vector2 support(ICollider c1, ICollider c2, Vector2 d)
         {
 
             // самая дальняя точка первого тела в произвольном направлении
@@ -106,17 +106,17 @@ namespace Solo.Physics
             int j = indexOfFurthestPoint(c2, negate(d));
 
             // вычитание (сумма Минковского) двух точек, чтобы увидеть, перекрываются ли тела
-            Vector2 r = c1.GetPoint(i) - c2.GetPoint(j);
+            Vector2 r = c1.GetGlobalPoint(i) - c2.GetGlobalPoint(j);
             return new Vector2(r.X, r.Y);
         }
 
-        private static int indexOfFurthestPoint(Collider c1, Vector2 d)
+        private static int indexOfFurthestPoint(ICollider c1, Vector2 d)
         {
-            float maxProduct = dotProduct(d, c1.GetPoint(0));
+            float maxProduct = dotProduct(d, c1.GetGlobalPoint(0));
             int index = 0;
             for (int i = 1; i < c1.GetPointsLength(); i++)
             {
-                float product = dotProduct(d, c1.GetPoint(i));
+                float product = dotProduct(d, c1.GetGlobalPoint(i));
                 if (product > maxProduct)
                 {
                     maxProduct = product;

@@ -8,40 +8,78 @@ namespace Solo.Core
     {
         public ComponentsDictionary Components { get; }
         public float Layer { get; protected set; }
+        public float SpeedX { get; set; }
+        public float SpeedY { get; set; }
 
-        public Vector2 Speed
+        public Vector2 Velocity
         { 
             get
             {
-                return _speed;
+                return _velocity;
             }
             set
             {
-                _speed = value;
+                _velocity = value;
             }
         }
 
-        public float SpeedX
+        public float VelocityX
         {
             get
             {
-                return _speed.X;
+                return _velocity.X;
             }
             set
             {
-                _speed.X = value;
+                _velocity.X = value;
             }
         }
 
-        public float SpeedY
+        public float VelocityY
         {
             get
             {
-                return _speed.Y;
+                return _velocity.Y;
             }
             set
             {
-                _speed.Y = value;
+                _velocity.Y = value;
+            }
+        }
+
+        public Vector2 Impulse
+        {
+            get
+            {
+                return _impulse;
+            }
+            set
+            {
+                _impulse = value;
+            }
+        }
+
+        public float ImpulseX
+        {
+            get
+            {
+                return _impulse.X;
+            }
+            set
+            {
+                _impulse.X = value;
+            }
+        }
+
+        public float ImpulseY
+        {
+            get
+            {
+                return _impulse.Y;
+            }
+            set
+            {
+                _impulse.Y = value;
             }
         }
 
@@ -67,7 +105,7 @@ namespace Solo.Core
             {
                 return _direction;
             }
-        }        
+        }
 
         public delegate void MoveDelegate(Vector2 position);
         public event MoveDelegate MoveEvent;
@@ -83,7 +121,8 @@ namespace Solo.Core
 
         protected Vector2 _position;
         protected float _angle;
-        protected Vector2 _speed;
+        protected Vector2 _velocity;
+        protected Vector2 _impulse;
         protected Vector2 _direction;
         protected bool _debugMode;
 
@@ -96,7 +135,10 @@ namespace Solo.Core
             _angle = 0f;
             _direction = Vector2.Zero;
             _debugMode = true;
-            _speed = Vector2.One;
+            _velocity = Vector2.One;
+            _impulse = Vector2.Zero;
+            SpeedX = 1;
+            SpeedY = 1;
             Start();
         }
 
@@ -130,11 +172,13 @@ namespace Solo.Core
             MoveEvent?.Invoke(_position);
         }
 
-        public void Move(Vector2 force)
+        public void Move(Vector2 direction)
         {
-            _position += force * _speed;
+            Vector2 delta = direction * _velocity + _impulse;
+            _position +=  delta;
 
-            _direction = force;
+            _direction.Y = delta.Y > 0 ? 1 : delta.Y == 0 ? 0 : -1;
+            _direction.X = delta.X > 0 ? 1 : delta.X == 0 ? 0 : -1;
 
             MoveEvent?.Invoke(_position);
         }
