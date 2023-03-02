@@ -38,8 +38,9 @@ namespace Solo.Physics
                 {
                     if (_objects[actor].Components.Get<Collider>(name).GetState())
                     {
+                        int count = 0;
                         foreach (string key in _objects.Keys)
-                        {
+                        {                            
                             if (key == actor)
                                 continue;
                             else
@@ -49,11 +50,12 @@ namespace Solo.Physics
                                 if (actorCollider.Intersects(collider))
                                 {
                                     _objects[actor].OnCollide(_objects[key], name);
-                                    return;
-                                }
-                                _objects[actor].OnNoCollide();
+                                    count++;
+                                }                                
                             }                            
                         }
+                        if (count == 0)
+                        _objects[actor].OnNoCollide();
                     }
                     else
                         continue;                    
