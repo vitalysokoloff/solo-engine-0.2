@@ -10,46 +10,44 @@ namespace Solo.Physics
         protected Vector2 _finalDirection;
         protected float _force;
         protected float _gravity;
+        protected bool _isColliding;
 
+        // подумать лучше, каак реализовать
         public PlatformerPhysics(GameObject parent, float gravity) : base(parent)
         {
             _gravity = gravity;
-            _force = 0;
+            _force = _parent.ResistX;
             _gravityDirection = new Vector2(0, 1);
+            _isColliding = false;
             _forceDirection = Vector2.Zero;
             _finalDirection = Vector2.Zero;
         }
 
         public override void OnCollide(GameObject interacting)
-        {  
+        {
+            _force = _parent.ResistX;
             _forceDirection = _parent.Components.Get<Collider>("physical").GetNormal(interacting.Components.Get<Collider>("physical"));
-            _finalDirection = -_forceDirection + _gravityDirection;
-            if (_finalDirection.Y < 0)
-            {
-                _parent.ImpulseY = 0;
-                _parent.VelocityY = 0;
-            }
-            if (_finalDirection.Y > 0)
-            {
-                _parent.ImpulseY = 0;
-            }
-            if (_finalDirection.X != 0)
-                _parent.ImpulseX = 0;
+            _parent.Move(-_forceDirection - _parent.Direction);
+            _isColliding = true;
         }
 
         public override void OnNoCollide()
         {
-            _parent.VelocityY = _gravity;
-            _finalDirection = _gravityDirection;
+            _isColliding = false;
+            _force = _parent.ResistX; // 1;
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (_isColliding && _forceDirection.X != 0)
+                _parent.ImpulseX = 0;
+            if (_isColliding && _forceDirection.Y != 0)
+                _parent.ImpulseY = 0;
+
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _parent.ImpulseY = _parent.ImpulseY - _parent.ImpulseY * deltaTime;
-            _parent.ImpulseX = _parent.ImpulseX - _parent.ImpulseX * deltaTime;
-                      
-            _parent.Move(_finalDirection);
+
+            _parent.ImpulseY = _parent.ImpulseY - _parent.ImpulseY * deltaTime * _parent.ResistY;
+            _parent.ImpulseX = _parent.ImpulseX - _parent.ImpulseX * deltaTime * _force; 
         }
     }
 }

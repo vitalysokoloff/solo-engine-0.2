@@ -5,7 +5,8 @@ namespace Solo.Core
 {
     public class Sprite : IComponent
     {
-        public Texture2D Texture { get; private set; }        
+        public Texture2D Texture { get; private set; }
+        public float Layer { get; set; }
 
         protected bool _state;
         protected int _framesQty;
@@ -72,9 +73,10 @@ namespace Solo.Core
 
         private void Init(Texture2D texture, Rectangle sourceRectangle, GameObject parent, Point size)
         {
-            Texture = texture;
+            Texture = texture;            
             _sourceRectangle = sourceRectangle;
             _parent = parent;
+            Layer = _parent.Layer;
             _size = size;
             _pivot = new Vector2(size.X / 2, size.Y / 2);
             _state = true;
@@ -167,7 +169,7 @@ namespace Solo.Core
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, _drawRectangle, _sourceRectangle, _color, _angle, _pivot, SpriteEffects.None, _parent.Layer);
+            spriteBatch.Draw(Texture, _drawRectangle, _sourceRectangle, _color, _angle, _pivot, SpriteEffects.None, Layer);
         }
 
     }

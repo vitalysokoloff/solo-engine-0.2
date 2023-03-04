@@ -10,6 +10,8 @@ namespace Solo.Core
         public float Layer { get; protected set; }
         public float SpeedX { get; set; }
         public float SpeedY { get; set; }
+        public float ResistX { get; set; }
+        public float ResistY { get; set; }
 
         public Vector2 Velocity
         { 
@@ -139,6 +141,9 @@ namespace Solo.Core
             _impulse = Vector2.Zero;
             SpeedX = 1;
             SpeedY = 1;
+            ResistX = 1;
+            ResistY = 1;
+            Velocity = new Vector2(1, 1);
             Start();
         }
 

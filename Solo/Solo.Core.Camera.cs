@@ -32,7 +32,8 @@ namespace Solo.Core
         }
 
         public Matrix Transform { get; protected set; }
-        public float Speed { get; set; }
+        public float SpeedX { get; set; }
+        public float SpeedY { get; set; }
 
         protected Vector2 _position;
         protected float _angle;
@@ -48,7 +49,8 @@ namespace Solo.Core
 
             ScreenCenter = new Vector2(_viewportWidth / 2, _viewportHeight / 2);
             _scale = 1f;
-            Speed = 1f;
+            SpeedX = 1f;
+            SpeedY = 1f;
             Start();
         }
 
@@ -132,8 +134,8 @@ namespace Solo.Core
 
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _position.X += (Focus.Position.X - _position.X) * Speed * deltaTime;
-            _position.Y += (Focus.Position.Y - _position.Y) * Speed * deltaTime;
+            _position.X += (Focus.Position.X - _position.X) * SpeedX * deltaTime;
+            _position.Y += (Focus.Position.Y - _position.Y) * SpeedX * deltaTime;
         }
     }
 
@@ -155,7 +157,7 @@ namespace Solo.Core
         public override void Start()
         {
             OffsetX = _viewportWidth / 4;
-            OffsetY = _viewportHeight / 6;
+            OffsetY = 0;
             _factorX = 0;
             _factorY = 0;
             DeltaY = ScreenCenter.Y - 128;
@@ -170,8 +172,8 @@ namespace Solo.Core
 
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            _position.X += (Focus.Position.X + OffsetX * _factorX - _position.X) * Speed * delta;
-            _position.Y += (Focus.Position.Y + OffsetY * _factorY - DeltaY - _position.Y) * Speed * delta;
+            _position.X += (Focus.Position.X + OffsetX * _factorX - _position.X) * SpeedX * delta;
+            _position.Y += (Focus.Position.Y + OffsetY * _factorY - DeltaY - _position.Y) * SpeedY * delta;
         }
     }
 }

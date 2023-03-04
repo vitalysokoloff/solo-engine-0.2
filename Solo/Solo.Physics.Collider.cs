@@ -135,8 +135,10 @@ namespace Solo.Physics
             return GJK.CheckCollision(this, collider);
         }
 
+        // Проверь по нормалям что выходит, а то херня какая-то
         public virtual Vector2 GetNormal(ICollider collider)
         {
+            Vector2 tmp = Vector2.Zero;
             Vector2 n = Vector2.Zero;
             Edge edge;
             Vector2[] points;
@@ -148,7 +150,9 @@ namespace Solo.Physics
                 if (Intersects(edge))
                 {
                     Vector2 a = points[1] - points[0]; // получаем вектор в новой системе координат
-                    return Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
+                    tmp = Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
+                    n.X = tmp.X != 0 ? tmp.X : 0;
+                    n.Y = tmp.Y != 0 ? tmp.Y : 0;
                 }
             }
 
@@ -157,7 +161,10 @@ namespace Solo.Physics
             if (Intersects(edge))
             {
                 Vector2 a = points[1] - points[0]; // получаем вектор в новой системе координат
-                return Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
+                tmp = Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
+                n.X = tmp.X != 0 ? tmp.X : 0;
+                n.Y = tmp.Y != 0 ? tmp.Y : 0;
+                
             }
 
             return n;
