@@ -5,9 +5,6 @@ namespace Solo.Physics
 {
     public class Rect : Collider
     {
-        /// <summary>
-        /// the pivot is always in the middle of the shape
-        /// </summary>
         public Rect(GameObject parent, Rectangle rectangle) : base(parent, rectangle)
         {
             _basePoints = new Vector2[4];
@@ -20,10 +17,6 @@ namespace Solo.Physics
             SetBasePoints();
             Start();
         }
-
-        /// <summary>
-        /// the pivot is always in the middle of the shape
-        /// </summary>
         public Rect(GameObject parent, int x, int y, int width, int height) : base(parent, x, y, width, height)
         {
             _basePoints = new Vector2[4];

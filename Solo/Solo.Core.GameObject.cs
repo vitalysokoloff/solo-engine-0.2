@@ -137,7 +137,7 @@ namespace Solo.Core
             _angle = 0f;
             _direction = Vector2.Zero;
             _debugMode = true;
-            _velocity = Vector2.One;
+            _velocity = Vector2.Zero;
             _impulse = Vector2.Zero;
             SpeedX = 1;
             SpeedY = 1;
@@ -180,8 +180,9 @@ namespace Solo.Core
         public void Move(Vector2 direction)
         {
             Vector2 delta = direction * _velocity + _impulse;
-            _position +=  delta;
+            _position += delta;
 
+            //_direction = direction;
             _direction.Y = delta.Y > 0 ? 1 : delta.Y == 0 ? 0 : -1;
             _direction.X = delta.X > 0 ? 1 : delta.X == 0 ? 0 : -1;
 

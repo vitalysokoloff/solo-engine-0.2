@@ -10,7 +10,12 @@ namespace Solo.Core
         {
             float length = (float)Math.Sqrt(a.X * a.X + a.Y * a.Y); // получаем длину вектора
             a = new Vector2(a.X / length, a.Y / length); // получаем единичный вектор
-            return new Vector2(-a.Y, a.X);            // получаем нормаль, поворот на -90
+            return new Vector2(a.Y, -a.X);            // получаем нормаль, поворот на 90
+        }
+
+        public static Vector2 EdgeToNormal(Vector2 a, Vector2 b)
+        {
+            return VectorToNormal(new Vector2(b.X - a.X, b.Y - a.Y));
         }
 
         public static float DegreesToRadians(int angle)
@@ -23,6 +28,11 @@ namespace Solo.Core
             return (int)(angle * 180 / Math.PI);
         }
 
+        /// <summary>
+        /// Вернёт угол в промежутке между 0 и 6.283
+        /// </summary>
+        /// <param name="sum"></param>
+        /// <returns></returns>
         public static float CalculateAngle(float sum)
         {
             if (sum == Tools.DegreesToRadians(360))

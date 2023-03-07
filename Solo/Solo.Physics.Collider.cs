@@ -11,7 +11,10 @@ namespace Solo.Physics
         {
             get
             {
-                return _position + _parent.Position;
+                if (_parent != null)
+                    return _position + _parent.Position;
+                else
+                    return _position;
             }
         } 
 
@@ -65,8 +68,11 @@ namespace Solo.Physics
         {
             _angle = 0f;
             _parent = parent;
-            parent.MoveEvent += OnMove;
-            parent.RotateEvent += OnRotate;
+            if (_parent != null)
+            {
+                _parent.MoveEvent += OnMove;
+                _parent.RotateEvent += OnRotate;
+            }
             On();
         }
 
@@ -110,7 +116,6 @@ namespace Solo.Physics
         public void SetPosition(Vector2 newPosition)
         {
             _position = newPosition;
-            SetBasePoints(); // Установка точек относительно новых координат позишн
         }
 
         public void SetColor(Color color)
@@ -130,44 +135,42 @@ namespace Solo.Physics
             RotatePoints();
         }
 
-        public virtual bool Intersects(ICollider collider)
+        public virtual bool Intersects(Collider collider)
+        {
+            return GJK.CheckCollision(this, collider).Answer;
+        }
+
+        public virtual GJK.Resault GetResault(Collider collider)
         {
             return GJK.CheckCollision(this, collider);
         }
-
-        // Проверь по нормалям что выходит, а то херня какая-то
-        public virtual Vector2 GetNormal(ICollider collider)
+        
+        public virtual Vector2 GetNormal(Collider collider)
         {
-            Vector2 tmp = Vector2.Zero;
-            Vector2 n = Vector2.Zero;
-            Edge edge;
-            Vector2[] points;
+            // Когда EPA  реализуешь?
 
-            for ( int i = 0; i < collider.GetPointsLength() - 1; i++)
-            {
-                points = new Vector2[] { collider.GetGlobalPoint(i), collider.GetGlobalPoint(i + 1) };
-                edge = new Edge(points);
-                if (Intersects(edge))
-                {
-                    Vector2 a = points[1] - points[0]; // получаем вектор в новой системе координат
-                    tmp = Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
-                    n.X = tmp.X != 0 ? tmp.X : 0;
-                    n.Y = tmp.Y != 0 ? tmp.Y : 0;
-                }
+            int length = collider.GetPointsLength();
+            Edge[] edges = new Edge[length];
+
+            for (int i = 0; i < length - 1; i++)
+                edges[i] = new Edge(collider.GetGlobalPoint(i), collider.GetGlobalPoint(i + 1));
+            edges[length - 1] = new Edge(collider.GetGlobalPoint(length - 1), collider.GetGlobalPoint(0));
+
+            int pointer = 0;
+            
+            for (int i = 0; i < edges.Length; i++)
+            {  
+                float length1 = (float)Math.Sqrt(Math.Pow(edges[pointer].Middle.X - GlobalPosition.X, 2) + Math.Pow(edges[pointer].Middle.Y - GlobalPosition.Y, 2));
+                float length2 = (float)Math.Sqrt(Math.Pow(edges[i].Middle.X - GlobalPosition.X, 2) + Math.Pow(edges[i].Middle.Y - GlobalPosition.Y, 2));                
+
+                if (length2 < length1)
+                    pointer = i;
             }
+            
 
-            points = new Vector2[] { collider.GetGlobalPoint(collider.GetPointsLength() - 1), collider.GetGlobalPoint(0) };
-            edge = new Edge(points);
-            if (Intersects(edge))
-            {
-                Vector2 a = points[1] - points[0]; // получаем вектор в новой системе координат
-                tmp = Tools.VectorToNormal(a); // получаем нормаль, поворот на -90
-                n.X = tmp.X != 0 ? tmp.X : 0;
-                n.Y = tmp.Y != 0 ? tmp.Y : 0;
-                
-            }
-
-            return n;
+            Console.WriteLine("[> " + pointer + " [/mp: " + edges[pointer].Middle + "/ap: " + edges[pointer].A + "/bp: " + edges[pointer].B + "]");
+            Console.WriteLine("/gp:" + GlobalPosition + "/cgp: " + collider.GlobalPosition + " <]");
+            return Tools.EdgeToNormal(edges[pointer].A, edges[pointer].B);
 
         }
 
@@ -192,6 +195,20 @@ namespace Solo.Physics
 
         protected virtual void SetBasePoints() { }
 
+        protected class Edge
+        {
+            public Vector2 A { get; }
+            public Vector2 B { get; }
+            public Vector2 Middle { get; }
+
+            public Edge(Vector2 a, Vector2 b)
+            {
+                A = a;
+                B = b;
+                Middle = new Vector2(((A.X + B.X) / 2), ((A.Y + B.Y) / 2));                
+            }
+        }
+
         public virtual void Update(GameTime gameTime)
         {
 
@@ -200,7 +217,9 @@ namespace Solo.Physics
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (Texture != null)
+            {
                 spriteBatch.Draw(Texture, _drawRectangle, _sourceRectangle, _color, _angle, _pivot, SpriteEffects.None, _parent.Layer);
+            }
         }
     }
 }

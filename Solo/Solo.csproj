@@ -45,14 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Solo.Physics.Edge.cs" />
-    <Compile Include="Solo.Core.ICollider.cs" />
+    <Compile Include="Solo.Physics.ICollider.cs" />
     <Compile Include="Solo.Physics.PlatformerPhysics.cs" />
     <Compile Include="Solo.Physics.SimpleImpactPhysics.cs" />
     <Compile Include="Solo.Physics.SimplePhysics.cs" />
     <Compile Include="Solo.Physics.PhysicsComponent.cs" />
     <Compile Include="Solo.Physics.CollideDetector.cs" />
-    <Compile Include="Solo.Physics.RegularPolygon.cs" />
+    <Compile Include="Solo.Physics.Collider.RegularPolygon.cs" />
     <Compile Include="Solo.Physics.Collider.Rect.cs" />
     <Compile Include="Solo.Physics.Collider.cs" />
     <Compile Include="Solo.Physics.GJK.cs" />

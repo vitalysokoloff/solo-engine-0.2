@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Solo.Core;
 
 namespace Solo.Physics
 {
@@ -11,15 +13,13 @@ namespace Solo.Physics
         /// <param name="c1"></param>
         /// <param name="c2"></param>
         /// <returns></returns>
-        public static bool CheckCollision(ICollider c1, ICollider c2)
+        public static Resault CheckCollision(ICollider c1, ICollider c2)
         {
             int index = 0; // индекс текущей точки симплекса
             Vector2 a, b, c, d, ao, ab, ac, abperp, acperp;
             Vector2[] simplex = new Vector2[3];
-
             // начальное направление от центра 1-го формы к центру 2-го формы
             d = averagePoint(c1) - averagePoint(c2);
-
             // если начальное направление равно нулю — устанавливаем его на любую произвольную ось (мы выбираем X)
             if (d == Vector2.Zero)
                 d.X = 1;
@@ -27,20 +27,22 @@ namespace Solo.Physics
             a = simplex[0] = support(c1, c2, d);
 
             if (dotProduct(a, d) <= 0)
-                return false; // нет колизии
+            {
+                return new Resault(false, null); // нет колизии
+            }
 
             d = negate(a); // Следующее направление поиска всегда направлено к исходной точке, поэтому следующее направление поиска является отрицательным (a).
-
 
             while (true)
             {
                 a = simplex[++index] = support(c1, c2, d);
 
                 if (dotProduct(a, d) <= 0)
-                    return false;  // нет колизии
+                {
+                    return new Resault(false, null); // нет колизии
+                }
 
                 ao = negate(a);
-
 
                 if (index < 2)
                 {
@@ -61,17 +63,16 @@ namespace Solo.Physics
 
                 if (dotProduct(acperp, ao) >= 0)
                 {
-
                     d = acperp;
-
                 }
                 else
                 {
-
                     abperp = tripleProduct(ac, ab, ab);
 
                     if (dotProduct(abperp, ao) < 0)
-                        return true; // collision
+                    {
+                       return new Resault(true, simplex); // collision                        
+                    }                        
 
                     simplex[0] = simplex[1];
 
@@ -106,8 +107,7 @@ namespace Solo.Physics
             int j = indexOfFurthestPoint(c2, negate(d));
 
             // вычитание (сумма Минковского) двух точек, чтобы увидеть, перекрываются ли тела
-            Vector2 r = c1.GetGlobalPoint(i) - c2.GetGlobalPoint(j);
-            return new Vector2(r.X, r.Y);
+            return c1.GetGlobalPoint(i) - c2.GetGlobalPoint(j);
         }
 
         private static int indexOfFurthestPoint(ICollider c1, Vector2 d)
@@ -133,7 +133,6 @@ namespace Solo.Physics
             float ac = a.X * c.X + a.Y * c.Y;
             float bc = b.X * c.X + b.Y * c.Y;
 
-
             r.X = b.X * ac - a.X * bc;
             r.Y = b.Y * ac - a.Y * bc;
             return r;
@@ -149,6 +148,18 @@ namespace Solo.Physics
             return a.X * v.X + a.Y * v.Y;
         }
         private static float lengthSquared(Vector2 v) { return v.X * v.X + v.Y * v.Y; }
+
+        public class Resault
+        {
+            public bool Answer { get; }
+            public Vector2[] Simplex { get; }
+
+            public Resault(bool answer, Vector2[] simplex)
+            {
+                Answer = answer;
+                Simplex = simplex;
+            }
+        }
 
     }
 }
