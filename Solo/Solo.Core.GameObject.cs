@@ -7,11 +7,16 @@ namespace Solo.Core
     public class GameObject : IEntity
     {
         public ComponentsDictionary Components { get; }
+        public bool DebugMode { get; set; }
         public float Layer { get; protected set; }
-        public float SpeedX { get; set; }
-        public float SpeedY { get; set; }
-        public float ResistX { get; set; }
-        public float ResistY { get; set; }
+
+        public Vector2 Resist
+        {
+            get
+            {
+                return _resist;
+            }
+        }
 
         public Vector2 Velocity
         { 
@@ -19,69 +24,13 @@ namespace Solo.Core
             {
                 return _velocity;
             }
-            set
-            {
-                _velocity = value;
-            }
         }
 
-        public float VelocityX
-        {
-            get
-            {
-                return _velocity.X;
-            }
-            set
-            {
-                _velocity.X = value;
-            }
-        }
-
-        public float VelocityY
-        {
-            get
-            {
-                return _velocity.Y;
-            }
-            set
-            {
-                _velocity.Y = value;
-            }
-        }
-
-        public Vector2 Impulse
+        public Vector2 Impilse
         {
             get
             {
                 return _impulse;
-            }
-            set
-            {
-                _impulse = value;
-            }
-        }
-
-        public float ImpulseX
-        {
-            get
-            {
-                return _impulse.X;
-            }
-            set
-            {
-                _impulse.X = value;
-            }
-        }
-
-        public float ImpulseY
-        {
-            get
-            {
-                return _impulse.Y;
-            }
-            set
-            {
-                _impulse.Y = value;
             }
         }
 
@@ -125,25 +74,22 @@ namespace Solo.Core
         protected float _angle;
         protected Vector2 _velocity;
         protected Vector2 _impulse;
+        protected Vector2 _resist;
         protected Vector2 _direction;
-        protected bool _debugMode;
 
         ///  убрать паррен, а на события подписывать в GO менеджере или в энтити типа физикс
         public GameObject(Vector2 position, float layer)
         {
             Components = new ComponentsDictionary();
+            DebugMode = true;
             _position = position;
             Layer = layer;
             _angle = 0f;
             _direction = Vector2.Zero;
-            _debugMode = true;
             _velocity = Vector2.Zero;
             _impulse = Vector2.Zero;
-            SpeedX = 1;
-            SpeedY = 1;
-            ResistX = 1;
-            ResistY = 1;
-            Velocity = new Vector2(1, 1);
+            _resist = new Vector2(1, 1);
+
             Start();
         }
 
@@ -168,7 +114,7 @@ namespace Solo.Core
 
         public virtual void OnDebug(bool status)
         {
-            _debugMode = status;
+            DebugMode = status;
         }
 
         public void SetPosition(Vector2 newPosition)
@@ -177,16 +123,43 @@ namespace Solo.Core
             MoveEvent?.Invoke(_position);
         }
 
+        public void SetImpulse(Vector2 impulse)
+        {
+            _impulse = impulse;
+        }
+
+        public void SetDirection(Vector2 direction)
+        {
+            _direction = direction;
+        }
+
+        public void CalcVelosity(GameTime gameTime)
+        {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _velocity = _impulse - Impilse * deltaTime * _resist;
+            _position += _velocity * _direction;
+            MoveEvent?.Invoke(_position);
+        }
+        
         public void Move(Vector2 direction)
         {
-            Vector2 delta = direction * _velocity + _impulse;
-            _position += delta;
-
-            //_direction = direction;
-            _direction.Y = delta.Y > 0 ? 1 : delta.Y == 0 ? 0 : -1;
-            _direction.X = delta.X > 0 ? 1 : delta.X == 0 ? 0 : -1;
-
+            _position += _velocity * direction;
             MoveEvent?.Invoke(_position);
+        }
+
+        public void Stop()
+        {
+            _velocity = Vector2.Zero;
+        }
+
+        public void StopX()
+        {
+            _velocity.X = 0;
+        }
+
+        public void StopY()
+        {
+            _velocity.Y = 0;
         }
 
         public void Rotate(float deltaAngle)
@@ -209,7 +182,7 @@ namespace Solo.Core
             if (Components.Get<Sprite>("main") != null)
                 Components.Get<Sprite>("main").Draw(spriteBatch);
 
-            if (_debugMode)
+            if (DebugMode)
             {
                 if (Components.Get<Collider>("physical") != null)
                   Components.Get<Collider>("physical").Draw(spriteBatch);
