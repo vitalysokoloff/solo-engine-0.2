@@ -26,7 +26,7 @@ namespace Solo.Core
             }
         }
 
-        public Vector2 Impilse
+        public Vector2 Impulse
         {
             get
             {
@@ -128,15 +128,51 @@ namespace Solo.Core
             _impulse = impulse;
         }
 
+        public void SetImpulseX(float x)
+        {
+            _impulse.X = x;
+        }
+
+        public void SetImpulseY(float y)
+        {
+            _impulse.Y = y;
+        }
+
         public void SetDirection(Vector2 direction)
         {
             _direction = direction;
         }
 
+        public void SetDirectionX(int x)
+        {
+            _direction.X = x;
+        }
+
+        public void SetDirectionY(int y)
+        {
+            _direction.Y = y;
+        }
+
+        public void SetResist(Vector2 resist)
+        {
+            _resist = resist;
+        }
+
+        public void SetResistX(int x)
+        {
+            _resist.X = x;
+        }
+
+        public void SetResistY(int y)
+        {
+            _resist.Y = y;
+        }
+
         public void CalcVelosity(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _velocity = _impulse - Impilse * deltaTime * _resist;
+            _impulse = _impulse - _impulse * _resist * deltaTime;
+            _velocity = _impulse;
             _position += _velocity * _direction;
             MoveEvent?.Invoke(_position);
         }
@@ -149,17 +185,17 @@ namespace Solo.Core
 
         public void Stop()
         {
-            _velocity = Vector2.Zero;
+            _impulse = Vector2.Zero;
         }
 
         public void StopX()
         {
-            _velocity.X = 0;
+            _impulse.X = 0;
         }
 
         public void StopY()
         {
-            _velocity.Y = 0;
+            _impulse.Y = 0;
         }
 
         public void Rotate(float deltaAngle)
