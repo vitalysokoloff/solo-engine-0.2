@@ -12,16 +12,15 @@ RegularPolygon : Collider
 CollideDetector : IEntity
 Physics : IComponent
 SimplePhysics : PhysicsComponent
+PlatformerPhysics : PhysicsComponent
 
 Заявлено, но не сделано:
 ManualCamera, которая перемещается череза WASD к примеру и это реализовано в Update() камеры
 ManualExtendedCamera, так же как предыдущая, но ещё и с вращением и зумом
 SimpleImpactPhysics : PhysicsComponent
-PlatformerPhysics : PhysicsComponent
 
 Не начато:
 EntityManager
 GameObjectManager
 Movement : IComponent
-
 GUI
